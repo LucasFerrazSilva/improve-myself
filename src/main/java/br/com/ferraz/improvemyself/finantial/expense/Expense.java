@@ -1,5 +1,7 @@
 package br.com.ferraz.improvemyself.finantial.expense;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +30,14 @@ public class Expense {
     String name;
 
     @Column(name="AMOUNT")
-    Float amount;
+    BigDecimal amount;
+    
+
+    public Expense(ExpenseDto dto) {
+        this.id = dto.getId();
+        this.name = dto.getName();
+        this.amount = dto.getAmount();
+    }
 
     
 }
