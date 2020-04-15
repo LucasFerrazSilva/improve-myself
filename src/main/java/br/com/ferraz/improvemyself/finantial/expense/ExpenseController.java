@@ -1,6 +1,9 @@
 package br.com.ferraz.improvemyself.finantial.expense;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,17 +28,29 @@ public class ExpenseController {
     private ExpenseRepository repository;
 
     @GetMapping("/")
-    public Page<Expense> list(@RequestParam("name") String name, @RequestParam("amount") String amountAsString, Pageable pageable) {
+    public Page<Expense> list(@RequestParam("name") String name, @RequestParam("amount") String amountAsString, 
+                                @RequestParam("expenseDate") String expenseDateAsString, Pageable pageable) {
         BigDecimal amount = null;
+        LocalDate expenseDate = null;
         
         try {
-            amount = new BigDecimal(amountAsString);
+            if (amountAsString != null && !amountAsString.isEmpty()) {
+                amount = new BigDecimal(amountAsString);
+            }
         } catch (NumberFormatException e) {
-            if (amountAsString != null && !amountAsString.isEmpty())
-                System.out.println("Unnable to convert " + amountAsString + " to BigDecimal");
+            System.out.println("Unnable to convert " + amountAsString + " to BigDecimal");
         }
 
-        return this.repository.findByFilters(name, amount, pageable);
+        try {
+            if (expenseDateAsString != null && !expenseDateAsString.isEmpty() && !expenseDateAsString.equals("undefined")) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                expenseDate = LocalDate.parse(expenseDateAsString, formatter);
+            }
+        } catch (DateTimeParseException e) {
+            System.out.println("Unnable to convert " + expenseDateAsString + " to LocalDate");
+        }
+
+        return this.repository.findByFilters(name, amount, expenseDate, pageable);
     }
 
     @GetMapping("/{id}")
