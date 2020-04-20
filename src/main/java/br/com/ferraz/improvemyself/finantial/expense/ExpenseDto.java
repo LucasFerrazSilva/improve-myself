@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategory;
 import br.com.ferraz.improvemyself.util.LocalDateDeserializer;
 import br.com.ferraz.improvemyself.util.LocalDateSerializer;
 import lombok.AccessLevel;
@@ -17,11 +18,15 @@ import lombok.experimental.FieldDefaults;
 public class ExpenseDto {
 
     Integer id;
+
     String name;
+
     BigDecimal amount;
     
     @JsonDeserialize(using = LocalDateDeserializer.class)  
     @JsonSerialize(using = LocalDateSerializer.class)  
     LocalDate expenseDate;
+
+    ExpenseCategory category;
 
 }

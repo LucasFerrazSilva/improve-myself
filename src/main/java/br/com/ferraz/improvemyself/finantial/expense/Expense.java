@@ -8,11 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategory;
 import br.com.ferraz.improvemyself.util.LocalDateDeserializer;
 import br.com.ferraz.improvemyself.util.LocalDateSerializer;
 import lombok.AccessLevel;
@@ -43,11 +47,17 @@ public class Expense {
     @JsonSerialize(using = LocalDateSerializer.class)  
     LocalDate expenseDate;
 
+    @ManyToOne
+    @JoinColumn(name="EXPENSE_CATEGORY_ID")
+    ExpenseCategory category;
+
+
     public Expense(ExpenseDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
         this.amount = dto.getAmount();
         this.expenseDate = dto.getExpenseDate();
+        this.category = dto.getCategory();
     }
 
     

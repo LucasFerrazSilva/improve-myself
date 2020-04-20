@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategory;
+import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategoryRepository;
+
 @RestController
 @RequestMapping("/expense")
 public class ExpenseController {
@@ -27,18 +29,23 @@ public class ExpenseController {
     @Autowired
     private ExpenseRepository repository;
 
+    @Autowired
+    private ExpenseCategoryRepository categoryRepository;
+
     @GetMapping("/")
     public Page<Expense> list(@RequestParam("name") String name, @RequestParam("amount") String amountAsString, 
-                                @RequestParam("expenseDate") String expenseDateAsString, Pageable pageable) {
+                                @RequestParam("expenseDate") String expenseDateAsString, @RequestParam("categoryId") String categoryId, 
+                                Pageable pageable) {
         BigDecimal amount = null;
         LocalDate expenseDate = null;
+        ExpenseCategory category = null;
         
-        try {
-            if (amountAsString != null && !amountAsString.isEmpty()) {
+        if (amountAsString != null && !amountAsString.isEmpty()) {
+            try {
                 amount = new BigDecimal(amountAsString);
+            } catch (NumberFormatException e) {
+                System.out.println("Unnable to convert " + amountAsString + " to BigDecimal");
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Unnable to convert " + amountAsString + " to BigDecimal");
         }
 
         try {
@@ -50,7 +57,15 @@ public class ExpenseController {
             System.out.println("Unnable to convert " + expenseDateAsString + " to LocalDate");
         }
 
-        return this.repository.findByFilters(name, amount, expenseDate, pageable);
+        if (categoryId != null && !categoryId.isEmpty() && !categoryId.equals("undefined")) {
+            try {
+                category = this.categoryRepository.findById(Integer.parseInt(categoryId)).orElse(null);
+            } catch (NumberFormatException e) {
+                System.out.println("Unnable to convert categoryId " + categoryId + " to Integer");
+            }
+        }
+
+        return this.repository.findByFilters(name, amount, expenseDate, category, pageable);
     }
 
     @GetMapping("/{id}")

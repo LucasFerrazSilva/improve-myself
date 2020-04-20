@@ -17,7 +17,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name="TB_EXPENSE_CATEGORIES")
 @Data @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor @NoArgsConstructor
-public class ExpenseCategory {
+public class ExpenseCategory implements Comparable<ExpenseCategory> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,11 @@ public class ExpenseCategory {
     public ExpenseCategory(ExpenseCategoryDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
+    }
+
+    @Override
+    public int compareTo(ExpenseCategory arg0) {
+        return this.name.compareTo(arg0.getName());
     }
     
 }
