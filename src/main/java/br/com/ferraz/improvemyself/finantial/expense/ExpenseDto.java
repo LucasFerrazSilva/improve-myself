@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import br.com.ferraz.improvemyself.defaults.DefaultDto;
 import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategory;
 import br.com.ferraz.improvemyself.util.LocalDateDeserializer;
 import br.com.ferraz.improvemyself.util.LocalDateSerializer;
@@ -15,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ExpenseDto {
+public class ExpenseDto implements DefaultDto {
 
     Integer id;
 

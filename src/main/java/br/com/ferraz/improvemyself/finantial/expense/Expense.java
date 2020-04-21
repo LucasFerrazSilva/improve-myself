@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import br.com.ferraz.improvemyself.defaults.DefaultDto;
+import br.com.ferraz.improvemyself.defaults.DefaultEntity;
 import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategory;
 import br.com.ferraz.improvemyself.util.LocalDateDeserializer;
 import br.com.ferraz.improvemyself.util.LocalDateSerializer;
@@ -29,7 +31,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name="TB_EXPENSES", schema = "IMPROVE_MYSELF")
 @Data @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor @NoArgsConstructor
-public class Expense {
+public class Expense implements DefaultEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,13 +54,14 @@ public class Expense {
     ExpenseCategory category;
 
 
-    public Expense(ExpenseDto dto) {
+    public void load(DefaultDto obj) {
+        ExpenseDto dto = (ExpenseDto) obj;
+
         this.id = dto.getId();
         this.name = dto.getName();
         this.amount = dto.getAmount();
         this.expenseDate = dto.getExpenseDate();
         this.category = dto.getCategory();
     }
-
     
 }

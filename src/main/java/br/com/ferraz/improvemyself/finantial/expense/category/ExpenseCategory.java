@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.com.ferraz.improvemyself.defaults.DefaultDto;
+import br.com.ferraz.improvemyself.defaults.DefaultEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +19,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name="TB_EXPENSE_CATEGORIES")
 @Data @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor @NoArgsConstructor
-public class ExpenseCategory implements Comparable<ExpenseCategory> {
+public class ExpenseCategory implements DefaultEntity, Comparable<ExpenseCategory> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +30,9 @@ public class ExpenseCategory implements Comparable<ExpenseCategory> {
     String name;
 
 
-    public ExpenseCategory(ExpenseCategoryDto dto) {
+    public void load(DefaultDto obj) {
+        ExpenseCategoryDto dto = (ExpenseCategoryDto) obj;
+        
         this.id = dto.getId();
         this.name = dto.getName();
     }
