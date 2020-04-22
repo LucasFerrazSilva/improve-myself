@@ -2,6 +2,7 @@ package br.com.ferraz.improvemyself.finantial.expense;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -62,6 +62,11 @@ public class Expense implements DefaultEntity {
         this.amount = dto.getAmount();
         this.expenseDate = dto.getExpenseDate();
         this.category = dto.getCategory();
+    }
+
+
+    public Month getExpenseDateMonth() {
+        return (this.expenseDate != null ? this.expenseDate.getMonth() : null);
     }
     
 }
