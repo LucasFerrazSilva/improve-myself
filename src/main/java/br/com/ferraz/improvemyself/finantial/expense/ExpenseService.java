@@ -2,8 +2,11 @@ package br.com.ferraz.improvemyself.finantial.expense;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,10 +33,12 @@ public class ExpenseService extends DefaultService<Expense> {
     }
 
     
-    public Page<Expense> list(String name, String amountAsString, String expenseDateAsString, String categoryId, Pageable pageable) {
+    public Page<Expense> list(String name, String amountAsString, String expenseDateAsString, String categoryId, Year expenseDateYear, Month expenseDateMonth, Pageable pageable) {
         BigDecimal amount = null;
         LocalDate expenseDate = null;
         ExpenseCategory category = null;
+        Integer expenseDateYearInt = (expenseDateYear != null ? expenseDateYear.getValue() : null);
+        Integer expenseDateMonthInt = (expenseDateMonth != null ? expenseDateMonth.getValue() : null);
         
         if (amountAsString != null && !amountAsString.isEmpty()) {
             try {
@@ -60,7 +65,7 @@ public class ExpenseService extends DefaultService<Expense> {
             }
         }
 
-        return this.repository.findByFilters(name, amount, expenseDate, category, pageable);
+        return this.repository.findByFilters(name, amount, expenseDate, category, expenseDateYearInt, expenseDateMonthInt, pageable);
     }
 
 }

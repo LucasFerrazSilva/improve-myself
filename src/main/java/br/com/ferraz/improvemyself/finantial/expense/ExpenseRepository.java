@@ -2,6 +2,8 @@ package br.com.ferraz.improvemyself.finantial.expense;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -19,14 +21,17 @@ public interface ExpenseRepository extends PagingAndSortingRepository<Expense, I
         + " and (e.amount = :amount or :amount is null) "
         + " and (e.expenseDate = :expenseDate or :expenseDate is null) "
         + " and (e.category = :category or :category is null) "
+        + " and (YEAR(e.expenseDate) = :expenseDateYear or :expenseDateYear is null) "
+        + " and (MONTH(e.expenseDate) = :expenseDateMonth or :expenseDateMonth is null) "
     )
-    Page<Expense> findByFilters(String name, BigDecimal amount, LocalDate expenseDate, ExpenseCategory category, Pageable pageable);
+    Page<Expense> findByFilters(String name, BigDecimal amount, LocalDate expenseDate, ExpenseCategory category, Integer expenseDateYear, 
+    Integer expenseDateMonth, Pageable pageable);
 
     @Query(
         " select e from Expense e where "
         + " (e.category is not null and e.category = :category) "
         + " and (e.expenseDate is not null and YEAR(e.expenseDate) = :year) "
     )
-	List<Expense> findByCategoryAndYear(ExpenseCategory category, int year);
+	List<Expense> findByCategoryAndYear(ExpenseCategory category, Integer year);
     
 }
