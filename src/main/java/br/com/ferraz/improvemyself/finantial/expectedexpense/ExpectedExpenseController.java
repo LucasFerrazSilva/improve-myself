@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ferraz.improvemyself.defaults.DefaultController;
@@ -23,8 +24,8 @@ public class ExpectedExpenseController extends DefaultController<ExpectedExpense
 
 
     @GetMapping("/")
-    public Page<ExpectedExpense> list(Pageable pageable) {
-        return this.service.findByFilters(pageable);
+    public Page<ExpectedExpense> list(@RequestParam("categoryId") String categoryId, Pageable pageable) {
+        return this.service.findByFilters(categoryId, pageable);
     }
 
 }

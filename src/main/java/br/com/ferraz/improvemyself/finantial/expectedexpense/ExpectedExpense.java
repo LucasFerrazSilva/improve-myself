@@ -1,7 +1,11 @@
 package br.com.ferraz.improvemyself.finantial.expectedexpense;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,11 +14,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.ferraz.improvemyself.defaults.DefaultDto;
 import br.com.ferraz.improvemyself.defaults.DefaultEntity;
+import br.com.ferraz.improvemyself.finantial.expectedexpense.formula.ExpectedExpenseFormula;
 import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategory;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,10 +30,8 @@ import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "TB_EXPECTED_EXPENSES")
-@Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor
-@NoArgsConstructor
+@Data @FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor @NoArgsConstructor
 public class ExpectedExpense implements DefaultEntity {
 
     @Id
@@ -46,6 +50,9 @@ public class ExpectedExpense implements DefaultEntity {
     @Column(name = "TOTAL_VALUE")
     BigDecimal totalValue;
 
+    @OneToMany(mappedBy = "expectedExpense", cascade = CascadeType.ALL)
+    List<ExpectedExpenseFormula> formulas;
+
 
     @Override
     public void load(DefaultDto dto2) {
@@ -55,6 +62,12 @@ public class ExpectedExpense implements DefaultEntity {
         this.category = dto.getCategory();
         this.type = dto.getType();
         this.totalValue = dto.getTotalValue();
+
+        this.formulas = new ArrayList<>();
+
+        if(dto.hasFormulas()) {
+            this.formulas = dto.getFormulas().stream().map(formulaDto -> new ExpectedExpenseFormula(formulaDto, this)).collect(Collectors.toList());
+        }
     }
 
 }

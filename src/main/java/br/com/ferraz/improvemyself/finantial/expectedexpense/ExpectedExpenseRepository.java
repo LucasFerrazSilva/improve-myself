@@ -8,8 +8,9 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface ExpectedExpenseRepository extends PagingAndSortingRepository<ExpectedExpense, Integer> {
 
     @Query(
-        "select e from ExpectedExpense e"
+        " select e from ExpectedExpense e where "
+        + " (e.category.id = :categoryId or :categoryId is null) "
     )
-    Page<ExpectedExpense> findByFilters(Pageable pageable);
+    Page<ExpectedExpense> findByFilters(Integer categoryId, Pageable pageable);
 
 }

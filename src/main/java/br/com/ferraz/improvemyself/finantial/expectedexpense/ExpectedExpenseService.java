@@ -19,8 +19,10 @@ public class ExpectedExpenseService extends DefaultService<ExpectedExpense> {
     }
 
 
-    public Page<ExpectedExpense> findByFilters(Pageable pageable) {
-        return this.repository.findByFilters(pageable);
+    public Page<ExpectedExpense> findByFilters(String categoryIdAsString, Pageable pageable) {
+        Integer categoryId = (categoryIdAsString != null && !categoryIdAsString.isBlank() ? Integer.parseInt(categoryIdAsString) : null);
+
+        return this.repository.findByFilters(categoryId, pageable);
     }
 
 }
