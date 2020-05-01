@@ -1,5 +1,7 @@
 package br.com.ferraz.improvemyself.finantial.expectedexpense.formula;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.ferraz.improvemyself.defaults.DefaultDto;
-import br.com.ferraz.improvemyself.defaults.DefaultEntity;
 import br.com.ferraz.improvemyself.finantial.expectedexpense.ExpectedExpense;
+import br.com.ferraz.improvemyself.finantial.expectedexpense.formula.element.ExpectedExpenseFormulaElement;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,6 +42,9 @@ public class ExpectedExpenseFormula {
 
     @Column(name = "EXPECTED_EXPENSE_FORMULA_OPERATION", columnDefinition = "ENUM('+', '-', '*', '/')")
     String operation;
+
+    @OneToMany(mappedBy = "formula")
+    List<ExpectedExpenseFormulaElement> elements;
 
 
     public ExpectedExpenseFormula(ExpectedExpenseFormulaDto dto, ExpectedExpense expectedExpense) {
