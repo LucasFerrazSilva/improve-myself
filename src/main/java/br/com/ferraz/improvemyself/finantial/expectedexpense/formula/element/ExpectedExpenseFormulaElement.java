@@ -54,5 +54,15 @@ public class ExpectedExpenseFormulaElement {
     @ManyToOne
     @JoinColumn(name="FINANTIAL_PARAMETER_ID")
     FinantialParameter parameter;
+
+    public ExpectedExpenseFormulaElement(ExpectedExpenseFormulaElementDto dto, ExpectedExpenseFormula formula) {
+        this.id = dto.getId();
+        this.operation = dto.getOperation();
+        this.type = dto.getType();
+        this.totalValue = dto.getTotalValue();
+        this.parameter = dto.getParameter();
+
+        this.formula = formula;
+    }
     
 }

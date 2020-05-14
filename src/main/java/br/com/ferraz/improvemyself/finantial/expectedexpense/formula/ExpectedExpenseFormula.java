@@ -1,7 +1,10 @@
 package br.com.ferraz.improvemyself.finantial.expectedexpense.formula;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,14 +46,25 @@ public class ExpectedExpenseFormula {
     @Column(name = "EXPECTED_EXPENSE_FORMULA_OPERATION", columnDefinition = "ENUM('+', '-', '*', '/')")
     String operation;
 
-    @OneToMany(mappedBy = "formula")
+    @OneToMany(mappedBy = "formula", cascade = CascadeType.ALL)
     List<ExpectedExpenseFormulaElement> elements;
 
 
     public ExpectedExpenseFormula(ExpectedExpenseFormulaDto dto, ExpectedExpense expectedExpense) {
         this.id = dto.getId();
         this.operation = dto.getOperation();
+
         this.expectedExpense = expectedExpense;
+
+
+        this.elements = new ArrayList<>();
+
+        if(dto.hasElements()) {
+            this.elements = 
+                dto.getElements().stream()
+                    .map(elementDto -> new ExpectedExpenseFormulaElement(elementDto, this))
+                    .collect(Collectors.toList());
+        }
     }
 
 }

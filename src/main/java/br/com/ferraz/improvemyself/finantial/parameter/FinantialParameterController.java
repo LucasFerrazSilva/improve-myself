@@ -1,5 +1,7 @@
 package br.com.ferraz.improvemyself.finantial.parameter;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,11 @@ public class FinantialParameterController extends DefaultController<FinantialPar
     @GetMapping("/")
     public Page<FinantialParameter> list(@RequestParam("name") String name, Pageable pageable) {
         return this.service.list(name, pageable);
+    }
+
+    @GetMapping("/find-all")
+    public List<FinantialParameter> findAll() {
+        return this.service.findAll();
     }
 
 }

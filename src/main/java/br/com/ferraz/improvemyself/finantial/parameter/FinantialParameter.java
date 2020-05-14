@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "TB_FINANTIAL_PARAMETERS")
 @Data @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor @NoArgsConstructor
-public class FinantialParameter implements DefaultEntity {
+public class FinantialParameter implements DefaultEntity, Comparable<FinantialParameter> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +42,11 @@ public class FinantialParameter implements DefaultEntity {
         this.id = dto.getId();
         this.name = dto.getName();
         this.value = dto.getValue();
+    }
+
+    @Override
+    public int compareTo(FinantialParameter arg0) {
+        return this.name.compareTo(arg0.getName());
     }
 
 }
