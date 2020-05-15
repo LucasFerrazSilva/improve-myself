@@ -50,7 +50,7 @@ public class ExpectedExpense implements DefaultEntity {
     @Column(name = "TOTAL_VALUE")
     BigDecimal totalValue;
 
-    @OneToMany(mappedBy = "expectedExpense", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "expectedExpense", cascade = CascadeType.ALL, orphanRemoval = true)
     List<ExpectedExpenseFormula> formulas;
 
 

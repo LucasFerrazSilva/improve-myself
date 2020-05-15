@@ -46,7 +46,7 @@ public class ExpectedExpenseFormula {
     @Column(name = "EXPECTED_EXPENSE_FORMULA_OPERATION", columnDefinition = "ENUM('+', '-', '*', '/')")
     String operation;
 
-    @OneToMany(mappedBy = "formula", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "formula", cascade = CascadeType.ALL, orphanRemoval = true)
     List<ExpectedExpenseFormulaElement> elements;
 
 
