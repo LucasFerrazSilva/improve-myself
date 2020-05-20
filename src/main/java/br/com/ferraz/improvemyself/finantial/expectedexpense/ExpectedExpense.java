@@ -18,10 +18,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import br.com.ferraz.improvemyself.defaults.DefaultDto;
 import br.com.ferraz.improvemyself.defaults.DefaultEntity;
 import br.com.ferraz.improvemyself.finantial.expectedexpense.formula.ExpectedExpenseFormula;
 import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategory;
+import br.com.ferraz.improvemyself.util.LocalDateSerializer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
