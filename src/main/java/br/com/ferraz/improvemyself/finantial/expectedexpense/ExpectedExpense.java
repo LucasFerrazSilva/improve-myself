@@ -53,6 +53,10 @@ public class ExpectedExpense implements DefaultEntity {
     @Column(name = "TOTAL_VALUE")
     BigDecimal totalValue;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "PERIOD", columnDefinition = "ENUM('MONTHLY', 'YEARLY')")
+    ExpectedExpensePeriod period;
+
     @OneToMany(mappedBy = "expectedExpense", cascade = CascadeType.ALL, orphanRemoval = true)
     List<ExpectedExpenseFormula> formulas;
 
@@ -65,6 +69,7 @@ public class ExpectedExpense implements DefaultEntity {
         this.category = dto.getCategory();
         this.type = dto.getType();
         this.totalValue = dto.getTotalValue();
+        this.period = dto.getPeriod();
 
         this.formulas = new ArrayList<>();
 

@@ -24,6 +24,8 @@ public class ExpectedExpenseDto implements DefaultDto {
     ExpectedExpenseType type;
     BigDecimal totalValue;
     List<ExpectedExpenseFormulaDto> formulas;
+    ExpectedExpensePeriod period;
+    
 
     public boolean hasFormulas() {
         return this.formulas != null && !this.formulas.isEmpty();
