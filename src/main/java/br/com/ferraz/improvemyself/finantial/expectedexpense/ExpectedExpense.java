@@ -18,13 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import br.com.ferraz.improvemyself.defaults.DefaultDto;
 import br.com.ferraz.improvemyself.defaults.DefaultEntity;
 import br.com.ferraz.improvemyself.finantial.expectedexpense.formula.ExpectedExpenseFormula;
 import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategory;
-import br.com.ferraz.improvemyself.util.LocalDateSerializer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -76,6 +73,11 @@ public class ExpectedExpense implements DefaultEntity {
         if(dto.hasFormulas()) {
             this.formulas = dto.getFormulas().stream().map(formulaDto -> new ExpectedExpenseFormula(formulaDto, this)).collect(Collectors.toList());
         }
+    }
+
+
+    public BigDecimal getMonthTotalValue() {
+        return (this.period != null ? this.period.calculatelValue(this.totalValue) : null);
     }
 
 }

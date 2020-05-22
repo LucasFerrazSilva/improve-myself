@@ -5,9 +5,11 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.ferraz.improvemyself.finantial.expectedexpense.ExpectedExpense;
 import br.com.ferraz.improvemyself.finantial.expense.Expense;
 import br.com.ferraz.improvemyself.finantial.expense.category.ExpenseCategory;
 import lombok.AccessLevel;
@@ -21,11 +23,15 @@ public class ExpensePerMonth implements Comparable<ExpensePerMonth> {
 
     EnumMap<Month, BigDecimal> values = new EnumMap<>(Month.class);
 
+    BigDecimal expectedValuePerMonth = null;
+
     BigDecimal totalValue;
 
 
-    public ExpensePerMonth(ExpenseCategory category, List<Expense> expenses) {
+    public ExpensePerMonth(ExpenseCategory category, List<Expense> expenses, Optional<ExpectedExpense> expectedExpenseOptional) {
         this.category = category;
+
+        expectedExpenseOptional.ifPresent(expectedExpense -> this.expectedValuePerMonth = expectedExpense.getMonthTotalValue());
 
         initValues();
 
