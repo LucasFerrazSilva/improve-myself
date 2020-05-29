@@ -1,6 +1,4 @@
-package br.com.ferraz.improvemyself.finantial.account;
-
-import java.util.List;
+package br.com.ferraz.improvemyself.finantial.investment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,27 +11,22 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ferraz.improvemyself.defaults.DefaultController;
 
 @RestController
-@RequestMapping("/account")
-public class AccountController extends DefaultController<Account, AccountDto> {
+@RequestMapping("/investment")
+public class InvestmentController extends DefaultController<Investment, InvestmentDto> {
 
-    AccountService service;
+    private InvestmentService service;
 
 
-    public AccountController(@Autowired AccountService service) {
+    public InvestmentController(@Autowired InvestmentService service) {
         super(service);
 
         this.service = service;
     }
 
-    
-    @GetMapping("/")
-    public Page<Account> list(@RequestParam("name") String name, Pageable pageable) {
-        return this.service.list(name, pageable);
-    }
 
-    @GetMapping("/find-all")
-    public List<Account> findAll() {
-        return this.service.findAll();
+    @GetMapping("/")
+    public Page<Investment> list(@RequestParam("name") String name, Pageable pageable) {
+        return this.service.list(name, pageable);
     }
     
 }

@@ -39,6 +39,5 @@ public class AccountService extends DefaultService<Account> {
 
         return list;
     }
-
     
 }
