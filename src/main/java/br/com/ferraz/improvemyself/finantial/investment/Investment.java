@@ -36,6 +36,13 @@ public class Investment implements DefaultEntity {
     @Column(name="AMOUNT")
     BigDecimal amount;
 
+    @Column(name="EXPECTED_INCOME")
+    BigDecimal expectedIncome;
+
+    @Column(name="MONTHLY_INVESTMENT")
+    BigDecimal monthlyInvestment;
+
+
     @Override
     public void load(DefaultDto dto2) {
         InvestmentDto dto = (InvestmentDto) dto2;
@@ -43,6 +50,8 @@ public class Investment implements DefaultEntity {
         this.id = dto.getId();
         this.name = dto.getName();
         this.amount = dto.getAmount();
+        this.expectedIncome = dto.getExpectedIncome();
+        this.monthlyInvestment = dto.getMonthlyInvestment();
     }
     
 }
