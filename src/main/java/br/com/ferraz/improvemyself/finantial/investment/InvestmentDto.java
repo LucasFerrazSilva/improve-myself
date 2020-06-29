@@ -17,6 +17,6 @@ public class InvestmentDto implements DefaultDto {
     String name;
     BigDecimal amount;
     BigDecimal expectedIncome;
-    BigDecimal monthlyInvestment;    
+    BigDecimal monthlyInvestment;
 
 }

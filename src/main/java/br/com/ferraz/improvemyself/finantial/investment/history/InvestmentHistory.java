@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.com.ferraz.improvemyself.defaults.DefaultDto;
 import br.com.ferraz.improvemyself.defaults.DefaultEntity;
 import br.com.ferraz.improvemyself.finantial.investment.Investment;
 import lombok.AccessLevel;
@@ -29,29 +30,45 @@ public class InvestmentHistory implements DefaultEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="INVESTMENT_HISTORY_ID")
+    @Column(name = "INVESTMENT_HISTORY_ID")
     Integer id;
 
     @ManyToOne
-    @JoinColumn(name="INVESTMENT_ID")
+    @JoinColumn(name = "INVESTMENT_ID")
     Investment investment;
 
-    @Column(name="HISTORY_YEAR")
+    @Column(name = "HISTORY_YEAR")
     Integer year;
 
-    @Column(name="HISTORY_MONTH")
+    @Column(name = "HISTORY_MONTH")
     Integer month;
 
-    @Column(name="INITIAL_AMOUNT")
+    @Column(name = "INITIAL_AMOUNT")
     BigDecimal initialAmount;
 
-    @Column(name="FINAL_AMOUNT")
+    @Column(name = "FINAL_AMOUNT")
     BigDecimal finalAmount;
 
-    @Column(name="MONTH_INCOME")
+    @Column(name = "MONTH_INCOME")
     BigDecimal monthIncome;
 
-    @Column(name="AMOUNT_MOVED")
+    @Column(name = "AMOUNT_MOVED")
     BigDecimal amountMoved;
+
+    
+    @Override
+    public void load(DefaultDto defaultDto) {
+        InvestmentHistoryDto dto = (InvestmentHistoryDto) defaultDto;
+
+        this.id = dto.getId();
+        this.investment = dto.getInvestment();
+        this.year = dto.getYear();
+        this.month = dto.getMonth();
+        this.initialAmount = dto.getInitialAmount();
+        this.finalAmount = dto.getFinalAmount();
+        this.monthIncome = dto.getMonthIncome();
+        this.amountMoved = dto.getAmountMoved();
+    }
+    
     
 }
