@@ -15,6 +15,6 @@ public interface InvestmentHistoryRepository extends PagingAndSortingRepository<
         + " and (i.year = :year or :year is null) "
         + " and (i.investment.id = :investmentId or :investmentId is null) "
     )
-    Page<InvestmentHistory> findByFilters(Integer month, Integer year, Integer investmentId, Pageable pageable);
+    Page<InvestmentHistory> findByFilters(Integer year, Integer month, Integer investmentId, Pageable pageable);
 
 }
