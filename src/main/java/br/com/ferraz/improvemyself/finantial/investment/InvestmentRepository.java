@@ -12,5 +12,7 @@ public interface InvestmentRepository extends PagingAndSortingRepository<Investm
         + " (i.name like '%' || :name || '%' or :name is null) "
     )
     Page<Investment> findByFilters(String name, Pageable pageable);
+
+    Investment findByName(String name);
     
 }

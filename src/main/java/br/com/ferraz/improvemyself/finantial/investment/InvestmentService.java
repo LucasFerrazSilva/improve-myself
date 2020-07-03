@@ -22,6 +22,10 @@ public class InvestmentService extends DefaultService<Investment> {
 
 	public Page<Investment> list(String name, Pageable pageable) {
         return this.repository.findByFilters(name, pageable);
-	}
+    }
+    
+    public Investment findByName(String name) {
+        return this.repository.findByName(name);
+    }
     
 }
